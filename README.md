@@ -9,6 +9,10 @@ and will appear unaltered when the plugin is disabled.
 
 You have been warned.
 
+
+![screenshots](https://raw.githubusercontent.com/wiki/FlorianMuenchbach/gajim-syntax-highlight/images/gajim.png)
+
+
 ## Installation
 
 Since this is still under development, there is no official plugin or released
