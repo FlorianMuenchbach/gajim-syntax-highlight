@@ -26,7 +26,7 @@ cd ~/.local/share/gajim/plugins/
 git clone https://github.com/FlorianMuenchbach/gajim-syntax-highlight
 ```
 
-Then restart Gajim and enable the Plugin in the Plugins menu.
+Then restart Gajim and enable the plugin in the plugins menu.
 
 
 ## Usage
@@ -42,7 +42,7 @@ contacts:
 (**Node:** your contact will not receive highlighted text unless she is also
 using the plugin.)
 
-If you want to send code written in a programmin language other than the
+If you want to send code written in a programming language other than the
 default, you can specify the language between the first `@@` and one additional
 `@` tag:
 ```
