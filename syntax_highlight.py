@@ -167,39 +167,52 @@ class SyntaxHighlighterPlugin(GajimPlugin):
         def get_lexer(language):
             lexer = None
             try:
-                get_lexer_by_name(language)
+                lexer = get_lexer_by_name(language)
             except:
                 pass
             return lexer
 
+        def get_lexer_with_fallback(language, default_lexer):
+            lexer = get_lexer(language)
+            if lexer is None:
+                log.info("Falling back to default lexer for %s." \
+                        % str(self.config['default_lexer']))
+                lexer = get_lexer_by_name(default_lexer)
+            return lexer
+
         def insert_formatted_code(tb, language, code, mark=None, line_break=False):
-            lexer = get_lexer_by_name(language) if not language is None else None
+            lexer = None
+
+            if language is None:
+                log.info("No Language specified. Falling back to default lexer: %s." \
+                        % str(self.config['default_lexer']))
+                lexer = get_lexer(self.config['default_lexer'])
+            else:
+                log.debug("Using lexer for %s." % str(language))
+                lexer = get_lexer_with_fallback(language, self.config['default_lexer'])
 
             if lexer is None:
-                if not language is None:
-                    log.info("Could not find lexer for '%s'. Falling back to default.")
-                else:
-                    log.info("No Language specified. Falling back to default: %s." % str(self.config['default_lexer']))
-                lexer = get_lexer_by_name(self.config['default_lexer'])
-
-            tokens = pygments.lex(code, lexer)
-
-            if line_break:
-                log.debug("Inserting newline before code.")
                 it = tb.get_iter_at_mark(mark)
                 tb.insert(it, '\n')
-                it.forward_char()
-                tb.move_mark(mark, it)
+            else:
+                tokens = pygments.lex(code, lexer)
+
+                if line_break:
+                    log.debug("Inserting newline before code.")
+                    it = tb.get_iter_at_mark(mark)
+                    tb.insert(it, '\n')
+                    it.forward_char()
+                    tb.move_mark(mark, it)
 
 
-            formatter = GTKFormatter(start_mark=mark)
-            pygments.format(tokens, formatter, tb)
+                formatter = GTKFormatter(start_mark=mark)
+                pygments.format(tokens, formatter, tb)
 
-            endmark = formatter.get_last_mark()
-            if line_break and not endmark is None:
-                it = tb.get_iter_at_mark(endmark)
-                tb.insert(it, '\n')
-                log.debug("Inserting newline after code.")
+                endmark = formatter.get_last_mark()
+                if line_break and not endmark is None:
+                    it = tb.get_iter_at_mark(endmark)
+                    tb.insert(it, '\n')
+                    log.debug("Inserting newline after code.")
                 
             return tb
 
