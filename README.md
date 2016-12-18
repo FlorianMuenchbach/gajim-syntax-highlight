@@ -52,6 +52,17 @@ echo "Hello, world"
 ```
 
 
+## Debug
+
+The plugin adds its own logger. It can be used to set a specific debug level
+for this plugin and/or filter log messages.
+
+Run
+```
+gajim --loglevel gajim.plugin_system.syntax_highlight=DEBUG
+```
+in a terminal to display the debug messages.
+
 ## Credits
 
 Since I had no experience in writing Plugins for Gajim, I used the
