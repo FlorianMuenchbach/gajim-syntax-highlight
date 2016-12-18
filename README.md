@@ -63,6 +63,12 @@ gajim --loglevel gajim.plugin_system.syntax_highlight=DEBUG
 ```
 in a terminal to display the debug messages.
 
+
+## Known Issues / ToDo
+
+ * Gajim crashes when correcting a message containing highlighted code.
+
+
 ## Credits
 
 Since I had no experience in writing Plugins for Gajim, I used the
